@@ -1,0 +1,24 @@
+{
+  "format_version": 2,
+  "header": {
+    "description": "InfraCraft Resource Pack",
+    "name": "InfraCraft Resource Pack",
+    "uuid": "0f755423-bbbd-4ea7-8596-1d2017463402",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 16, 0]
+  },
+  "modules": [
+    {
+      "description": "InfraCraft Resource Pack",
+      "type": "resources",
+      "uuid": "063b0040-1701-44f0-8086-ae9f88290634",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "6c872307-6bb8-43d1-96ea-c7a93a2b0861",
+      "version": [1, 0, 0]
+    }
+  ]
+}

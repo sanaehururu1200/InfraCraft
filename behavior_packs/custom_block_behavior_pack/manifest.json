@@ -1,0 +1,36 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "InfraCraft",
+    "description": "InfraCraft v0.1.0",
+    "uuid": "5109a621-6b18-4e97-af83-90811dc75e1d",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 19, 80]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "0c2a6781-0820-4996-9ca7-d4dad96adef5",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    },
+    {
+      "description": "InfraCraft Behavior Pack",
+      "type": "data",
+      "uuid": "6c872307-6bb8-43d1-96ea-c7a93a2b0861",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.6.0-beta"
+    },
+    {
+      "uuid": "0f755423-bbbd-4ea7-8596-1d2017463402",
+      "version": [1, 0, 0]
+    }
+  ]
+}
