@@ -17,6 +17,7 @@ import { Tickable } from "./Tickable";
 export class HandCrank extends BlockEntity implements Rotatable, Tickable {
   RPM: number;
   Stress: number;
+  Count: number = 0;
   constructor() {
     super("infracraft:handcrank");
     this.RPM = 0;
@@ -28,48 +29,47 @@ export class HandCrank extends BlockEntity implements Rotatable, Tickable {
         return;
       }
 
-      let entities: Entity[] = world.getDimension("overworld").getEntitiesAtBlockLocation(block?.location);
+      let entities: Entity[] = event.source.dimension.getEntitiesAtBlockLocation(block?.location);
       if (entities == null) {
         return;
       }
 
       entities.forEach((entity) => {
         if (entity.typeId.toString() == this.typeId) {
-          if (entity.getDynamicProperty("rpm") != undefined) {
-            entity.setDynamicProperty("rpm", 6);
-            event.source.sendMessage("entity:" + entity.id + " : " + entity.getDynamicProperty("rpm"));
-          } else {
-            event.source.sendMessage("entity is not rotatable!");
-          }
+          entity.setDynamicProperty("rpm", 6);
+          this.Count = 1;
+          event.source.sendMessage("entity is rotatable!");
         }
       });
     });
   }
 
-  SpawnEntity(location: Vector, dimension: Dimension): void {
-    this.entity = dimension.spawnEntity(this.typeId, location);
-    this.entity.setDynamicProperty("rpm", 0);
-  }
-
   GlobalTick(): void {
+    world.getAllPlayers().map((player) => player.sendMessage("tick"));
     let entities: Entity[] = world.getDimension("overworld").getEntities();
     entities.forEach((entity) => {
       if (entity != null) {
         if (entity.typeId.toString() == "infracraft:handcrank") {
-          let nowRPM: any = entity.getDynamicProperty("rpm");
-          if (typeof nowRPM === "string") {
-            nowRPM = parseInt(nowRPM);
-          }
-          if (typeof nowRPM === "number") {
-            if (nowRPM > 0) {
-              entity.setDynamicProperty("rpm", nowRPM - 1);
+          world.getAllPlayers().map((player) => player.sendMessage("rpm: " + entity.getDynamicProperty("rpm")));
+          if (this.Count > 10) {
+            let nowRPM: any = entity.getDynamicProperty("rpm");
+            if (typeof nowRPM === "string") {
+              nowRPM = parseInt(nowRPM);
             }
-          } else {
-            entity.setDynamicProperty("rpm", 0);
+            if (typeof nowRPM === "number") {
+              if (nowRPM > 0) {
+                entity.setDynamicProperty("rpm", nowRPM - 1);
+              } else {
+                this.Count = 0;
+              }
+            } else {
+              entity.setDynamicProperty("rpm", 0);
+            }
+          } else if (this.Count >= 1) {
+            this.Count++;
           }
         }
       }
     });
-    system.run(this.GlobalTick);
   }
 }
