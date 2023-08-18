@@ -39,7 +39,6 @@ export class HandCrank extends BlockEntity implements Rotatable, Tickable {
         if (entity.typeId.toString() == this.typeId) {
           this.RPM = 2;
           this.Count = 1;
-          world.getAllPlayers().forEach((player) => player.sendMessage("Clicked!"));
           entity.setDynamicProperty("rpm", this.RPM);
         }
       });

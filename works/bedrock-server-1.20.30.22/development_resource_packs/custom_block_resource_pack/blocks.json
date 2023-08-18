@@ -29,15 +29,5 @@
       "east": "empty",
       "west": "empty"
     }
-  },
-  "infracraft:small_cog_wheel": {
-    "textures": {
-      "up": "empty",
-      "down": "empty",
-      "north": "empty",
-      "south": "empty",
-      "east": "empty",
-      "west": "empty"
-    }
   }
 }

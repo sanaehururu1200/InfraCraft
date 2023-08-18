@@ -25,7 +25,10 @@ export class BlockEntity implements Tickable {
     world.afterEvents.blockPlace.subscribe((event) => {
       if (event.block.typeId.toString() == this.typeId) {
         event.player.sendMessage("BlockEntity Placed!");
-        event.block.dimension.spawnEntity(typeId, event.block.location);
+        var temp = event.block.location;
+        temp.x += 0.5;
+        temp.z += 0.5;
+        event.block.dimension.spawnEntity(typeId, temp);
       }
     });
 
@@ -37,7 +40,14 @@ export class BlockEntity implements Tickable {
       }
       entities.forEach((entity) => {
         if (entity.typeId.toString() == this.typeId) {
-          entity.kill();
+          var temp = event.block.location;
+          temp.x += 0.5;
+          temp.z += 0.5;
+          let distance: number = Vector.distance(entity.location, temp);
+          if (distance < 0.2) {
+            entity.teleport({ x: 0, y: 100000, z: 0 });
+            entity.remove();
+          }
         }
       });
     });
