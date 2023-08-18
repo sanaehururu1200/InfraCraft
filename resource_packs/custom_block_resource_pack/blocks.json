@@ -19,5 +19,15 @@
   },
   "demo:california_roll": {
     "sound": "mud"
+  },
+  "infracraft:handcrank": {
+    "textures": {
+      "up": "empty",
+      "down": "empty",
+      "north": "empty",
+      "south": "empty",
+      "east": "empty",
+      "west": "empty"
+    }
   }
 }

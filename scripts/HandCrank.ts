@@ -8,6 +8,7 @@ import {
   Entity,
   DynamicPropertiesDefinition,
   Dimension,
+  Vector2,
 } from "@minecraft/server";
 
 import { Rotatable } from "./Rotatable";
@@ -36,29 +37,30 @@ export class HandCrank extends BlockEntity implements Rotatable, Tickable {
 
       entities.forEach((entity) => {
         if (entity.typeId.toString() == this.typeId) {
-          entity.setDynamicProperty("rpm", 6);
+          this.RPM = 2;
           this.Count = 1;
-          event.source.sendMessage("entity is rotatable!");
+          world.getAllPlayers().forEach((player) => player.sendMessage("Clicked!"));
+          entity.setDynamicProperty("rpm", this.RPM);
         }
       });
     });
   }
 
   GlobalTick(): void {
-    world.getAllPlayers().map((player) => player.sendMessage("tick"));
     let entities: Entity[] = world.getDimension("overworld").getEntities();
     entities.forEach((entity) => {
       if (entity != null) {
         if (entity.typeId.toString() == "infracraft:handcrank") {
-          world.getAllPlayers().map((player) => player.sendMessage("rpm: " + entity.getDynamicProperty("rpm")));
-          if (this.Count > 10) {
+          if (this.Count > 2) {
             let nowRPM: any = entity.getDynamicProperty("rpm");
+
             if (typeof nowRPM === "string") {
               nowRPM = parseInt(nowRPM);
             }
             if (typeof nowRPM === "number") {
-              if (nowRPM > 0) {
-                entity.setDynamicProperty("rpm", nowRPM - 1);
+              this.RPM = nowRPM;
+              if (this.RPM > 0) {
+                entity.setDynamicProperty("rpm", this.RPM - 1);
               } else {
                 this.Count = 0;
               }
@@ -67,6 +69,14 @@ export class HandCrank extends BlockEntity implements Rotatable, Tickable {
             }
           } else if (this.Count >= 1) {
             this.Count++;
+            entity.setDynamicProperty("rpm", this.RPM);
+            entity.teleport(
+              { x: entity.location.x, y: entity.location.y, z: entity.location.z },
+              {
+                rotation: { x: 0, y: entity.getRotation().y + this.RPM * 18 },
+              }
+            );
+            world.playSound("block.scaffolding.climb", entity.location);
           }
         }
       }

@@ -45,6 +45,9 @@
     },
     "bubble_fish_green": {
       "textures": "textures/blocks/bubble_fish_green"
+    },
+    "empty": {
+      "textures": "textures/blocks/empty"
     }
   }
 }

@@ -4,6 +4,13 @@
     "description": {
       "identifier": "infracraft:handcrank"
     },
-    "components": {}
+    "components": {
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "handcrank",
+          "render_method": "alpha_test"
+        }
+      }
+    }
   }
 }
