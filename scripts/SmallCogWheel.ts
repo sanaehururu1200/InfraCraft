@@ -30,11 +30,41 @@ export class SmallCogWheel extends BlockEntity implements Rotatable, Tickable {
     entities.forEach((entity) => {
       if (entity != null) {
         if (entity.typeId.toString() == "infracraft:small_cog_wheel") {
+          world
+            .getDimension("overworld")
+            .getEntitiesAtBlockLocation(new Vector(entity.location.x, entity.location.y + 1, entity.location.z))
+            .forEach((topEntity) => {
+              try {
+                var topRPM: string | number | boolean | Vector3 = topEntity.getDynamicProperty("rpm") ?? 0;
+                if (typeof topRPM === "string") {
+                  topRPM = parseInt(topRPM);
+                }
+                if (typeof topRPM === "number") {
+                  if (topRPM != 0) {
+                    this.RPM = topRPM;
+                    entity.setDynamicProperty("rpm", this.RPM);
+                    entity.teleport(
+                      { x: entity.location.x, y: entity.location.y, z: entity.location.z },
+                      {
+                        rotation: { x: 0, y: entity.getRotation().y + this.RPM * 18 },
+                      }
+                    );
+                    world.getAllPlayers().forEach((player) => player.sendMessage("top:" + topRPM.toString()));
+                    return;
+                  }
+                } else {
+                  world.getAllPlayers().forEach((player) => player.sendMessage("top:zero"));
+                }
+              } catch (e: any) {
+                world.getAllPlayers().forEach((player) => player.sendMessage(e.toString()));
+              }
+            });
+
           let sides: Vector[] = [
-            new Vector(entity.location.x - 1, entity.location.y, entity.location.z + 1),
-            new Vector(entity.location.x + 1, entity.location.y, entity.location.z - 1),
-            new Vector(entity.location.x - 1, entity.location.y, entity.location.z - 1),
-            new Vector(entity.location.x + 1, entity.location.y, entity.location.z + 1),
+            new Vector(entity.location.x, entity.location.y, entity.location.z + 1),
+            new Vector(entity.location.x, entity.location.y, entity.location.z - 1),
+            new Vector(entity.location.x + 1, entity.location.y, entity.location.z),
+            new Vector(entity.location.x - 1, entity.location.y, entity.location.z),
           ];
           var sideRPMArray: number[] = [];
           sides.forEach((side) => {
@@ -50,7 +80,7 @@ export class SmallCogWheel extends BlockEntity implements Rotatable, Tickable {
                   }
                   if (typeof sideRPM === "number") {
                     sideRPMArray.push(sideRPM);
-                    world.getAllPlayers().forEach((player) => player.sendMessage(sideRPM.toString()));
+                    world.getAllPlayers().forEach((player) => player.sendMessage("side:" + sideRPM.toString()));
                   } else {
                     sideRPMArray.push(0);
                     sideRPM = 0;

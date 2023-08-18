@@ -10,7 +10,7 @@
         "default": "textures/entity/handcrank"
       },
       "geometry": {
-        "default": "geometry.handcrank"
+        "default": "geometry.small_cog_wheel"
       },
       "render_controllers": ["controller.render.default"]
     }
