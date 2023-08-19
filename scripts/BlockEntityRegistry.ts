@@ -15,6 +15,9 @@ export class BlockEntityRegistry {
           var temp = event.block.location;
           temp.x += 0.5;
           temp.z += 0.5;
+          if (event.block == null) {
+            console.warn("BlockEntityRegistry: event.block is null");
+          }
           blockEntity.block = event.block;
           blockEntity.entity = event.block.dimension.spawnEntity(blockEntity.typeId, temp);
           BlockEntityManager.Register(blockEntity);

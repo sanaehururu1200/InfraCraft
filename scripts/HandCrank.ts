@@ -19,7 +19,7 @@ export class HandCrank extends RotatableBlockEntity {
       ) < 1.5
     ) {
       if (this.entity?.typeId.toString() == this.typeId) {
-        this.UpdateRPM(2);
+        super.SetRPM(2);
         event.source.sendMessage("RPM: " + this.GetRPM());
         this.Count = 1;
       }
@@ -39,19 +39,17 @@ export class HandCrank extends RotatableBlockEntity {
   }
 
   Tick(): void {
-    // if (this.Entity == null) {
-    //   console.warn("this.Entity is null or undefined");
-    //   return;
-    // }
     if (this.Count > 2) {
       // 一定時間以上Useしてないので減衰させる
       if (this.GetRPM() != 0) {
-        this.entity?.setDynamicProperty("rpm", this.GetRPM() - 1);
+        this.SetRPM(this.GetRPM() - 1);
       } else {
         this.Count = 0;
       }
     } else if (this.Count != 0) {
       // 回転中
+      if (this.entity == null) return;
+      this.SetRPM(2);
       this.entity?.teleport(
         { x: this.entity?.location.x, y: this.entity?.location.y, z: this.entity?.location.z },
         {
@@ -59,6 +57,7 @@ export class HandCrank extends RotatableBlockEntity {
         }
       );
       world.playSound("block.scaffolding.climb", this.entity?.location || { x: 100000, y: 100000, z: 100000 });
+      this.Count++;
     }
   }
 
