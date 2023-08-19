@@ -19,4 +19,4 @@ Goals of InfraCraft
 - Additional content with a strong focus on architecture
 
 For the latest development updates, please refer to the author's [Twitter](https://twitter.com/RBS_Haruru).
-Also, check out [Patreon](https://www.patreon.com/_rbs) もよろしくお願いします。
+Also, check out [Patreon](https://www.patreon.com/_rbs)
