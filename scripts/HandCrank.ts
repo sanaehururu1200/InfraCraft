@@ -1,15 +1,4 @@
-import {
-  world,
-  system,
-  Vector,
-  Block,
-  BlockPermutation,
-  Player,
-  Entity,
-  DynamicPropertiesDefinition,
-  Dimension,
-  Vector2,
-} from "@minecraft/server";
+import { world, Entity } from "@minecraft/server";
 
 import { Rotatable } from "./Rotatable";
 import { BlockEntity } from "./BlockEntity";

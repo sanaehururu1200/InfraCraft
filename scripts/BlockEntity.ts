@@ -1,16 +1,5 @@
-import {
-  world,
-  system,
-  Vector,
-  Block,
-  BlockPermutation,
-  Player,
-  Entity,
-  DynamicPropertiesDefinition,
-  Dimension,
-} from "@minecraft/server";
+import { world, Vector, Block, Entity } from "@minecraft/server";
 
-import { Rotatable } from "./Rotatable";
 import { Tickable } from "./Tickable";
 
 export class BlockEntity implements Tickable {
