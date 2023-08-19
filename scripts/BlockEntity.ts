@@ -12,7 +12,9 @@ export abstract class BlockEntity implements Tickable {
     this.typeId = typeId;
   }
 
-  FromEntity(entity: Entity): any {}
+  FromEntity(entity: Entity): any {
+    console.warn("BlockEntity.FromEntity: This method is not implemented.");
+  }
 
   OnUse(event: ItemUseAfterEvent): void {}
 
