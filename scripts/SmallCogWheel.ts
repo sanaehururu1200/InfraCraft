@@ -11,6 +11,18 @@ export class SmallCogWheel extends RotatableBlockEntity {
     this.Stress = 0;
   }
 
+  static FromEntity(entity: Entity): SmallCogWheel {
+    let blockEntity: SmallCogWheel = new SmallCogWheel();
+    blockEntity.entity = entity;
+    let block = entity.dimension.getBlock(entity.location);
+    if (typeof block != "undefined") {
+      blockEntity.block = block;
+    } else {
+      console.warn("SmallCogWheel.FromEntity: block is undefined, restore from entity.location is failed.");
+    }
+    return blockEntity;
+  }
+
   Tick(): void {
     let entities: Entity[] = world.getDimension("overworld").getEntities();
     entities.forEach((entity) => {

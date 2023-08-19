@@ -1,8 +1,4 @@
 import { world, Vector, ItemUseAfterEvent, Entity, Block } from "@minecraft/server";
-
-import { Rotatable } from "./Rotatable";
-import { BlockEntity } from "./BlockEntity";
-import { Tickable } from "./Tickable";
 import { RotatableBlockEntity } from "./RotatableBlockEntity";
 
 export class HandCrank extends RotatableBlockEntity {
@@ -28,6 +24,18 @@ export class HandCrank extends RotatableBlockEntity {
         this.Count = 1;
       }
     }
+  }
+
+  static FromEntity(entity: Entity): HandCrank {
+    let blockEntity: HandCrank = new HandCrank();
+    blockEntity.entity = entity;
+    let block = entity.dimension.getBlock(entity.location);
+    if (typeof block != "undefined") {
+      blockEntity.block = block;
+    } else {
+      console.warn("HandCrank.FromEntity: block is undefined, restore from entity.location is failed.");
+    }
+    return blockEntity;
   }
 
   Tick(): void {

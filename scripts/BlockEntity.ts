@@ -12,6 +12,8 @@ export abstract class BlockEntity implements Tickable {
     this.typeId = typeId;
   }
 
+  FromEntity(entity: Entity): any {}
+
   OnUse(event: ItemUseAfterEvent): void {}
 
   Tick(): void {}

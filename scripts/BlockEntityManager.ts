@@ -42,10 +42,12 @@ export class BlockEntityManager {
   }
 
   static Register(blockEntity: BlockEntity): void {
+    console.warn("BlockEntity Registered");
     this.BlockEntities.push(blockEntity);
   }
 
   static Unregister(blockEntity: BlockEntity): void {
+    console.warn("BlockEntity Unregistered");
     this.BlockEntities.splice(this.BlockEntities.indexOf(blockEntity), 1);
   }
 }

@@ -4,12 +4,12 @@ import { BlockEntityManager } from "./BlockEntityManager";
 
 export class BlockEntityRegistry {
   static instance = new BlockEntityRegistry();
-  RegistryField: BlockEntity[];
+  static RegistryField: BlockEntity[];
 
   constructor() {
-    this.RegistryField = [];
+    BlockEntityRegistry.RegistryField = [];
     world.afterEvents.blockPlace.subscribe((event) => {
-      this.RegistryField.forEach((RegisterdBlockEntity) => {
+      BlockEntityRegistry.RegistryField.forEach((RegisterdBlockEntity) => {
         if (event.block.typeId == RegisterdBlockEntity.typeId) {
           let blockEntity: BlockEntity = RegisterdBlockEntity.New();
           var temp = event.block.location;
@@ -23,15 +23,15 @@ export class BlockEntityRegistry {
     });
   }
 
-  Register(blockEntity: BlockEntity): void {
+  static Register(blockEntity: BlockEntity): void {
     this.RegistryField.push(blockEntity);
   }
 
-  Unregister(blockEntity: BlockEntity): void {
+  static Unregister(blockEntity: BlockEntity): void {
     this.RegistryField.splice(this.RegistryField.indexOf(blockEntity), 1);
   }
 
   Get(typeId: string): any {
-    return this.RegistryField.find((blockEntity) => blockEntity.typeId == typeId);
+    return BlockEntityRegistry.RegistryField.find((blockEntity) => blockEntity.typeId == typeId);
   }
 }
