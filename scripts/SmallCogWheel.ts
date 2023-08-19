@@ -1,19 +1,17 @@
 import { world, Vector, Entity, Vector3 } from "@minecraft/server";
+import { RotatableBlockEntity } from "./RotatableBlockEntity";
 
-import { Rotatable } from "./Rotatable";
-import { BlockEntity } from "./BlockEntity";
-import { Tickable } from "./Tickable";
-
-export class SmallCogWheel extends BlockEntity implements Rotatable, Tickable {
+export class SmallCogWheel extends RotatableBlockEntity {
   RPM: number;
   Stress: number;
+  static typeId: string = "infracraft:small_cog_wheel";
   constructor() {
     super("infracraft:small_cog_wheel");
     this.RPM = 0;
     this.Stress = 0;
   }
 
-  GlobalTick(): void {
+  Tick(): void {
     let entities: Entity[] = world.getDimension("overworld").getEntities();
     entities.forEach((entity) => {
       if (entity != null) {
@@ -102,5 +100,9 @@ export class SmallCogWheel extends BlockEntity implements Rotatable, Tickable {
         }
       }
     });
+  }
+
+  New(): SmallCogWheel {
+    return new SmallCogWheel();
   }
 }

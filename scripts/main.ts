@@ -2,6 +2,7 @@ import { world, system, DynamicPropertiesDefinition } from "@minecraft/server";
 import { HandCrank } from "./HandCrank";
 import { BlockEntityRegistry } from "./BlockEntityRegistry";
 import { SmallCogWheel } from "./SmallCogWheel";
+import { BlockEntityManager } from "./BlockEntityManager";
 
 const modid: string = "infracraft";
 const InfraCraftIds = (id: string): string => {
@@ -16,12 +17,12 @@ world.afterEvents.worldInitialize.subscribe((event) => {
   event.propertyRegistry.registerEntityTypeDynamicProperties(propertiesDefinition, InfraCraftIds("small_cog_wheel"));
 });
 
-const registry: BlockEntityRegistry = new BlockEntityRegistry();
-registry.BlockEntities.push(new HandCrank());
-registry.BlockEntities.push(new SmallCogWheel());
+// Register BlockEntity(Registry)
+BlockEntityRegistry.instance.Register(new HandCrank());
+BlockEntityRegistry.instance.Register(new SmallCogWheel());
 
 function mainTick() {
-  registry.GlobalTickAll();
+  BlockEntityManager.TickAll();
   system.run(mainTick);
 }
 

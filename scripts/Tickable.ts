@@ -1,3 +1,3 @@
 export interface Tickable {
-  GlobalTick(): void;
+  Tick(): void;
 }
