@@ -7,6 +7,7 @@ export class BlockEntityManager {
   constructor() {
     world.afterEvents.itemUse.subscribe((event) => {
       BlockEntityManager.BlockEntities.forEach((blockEntity) => {
+        if (typeof event.source.getBlockFromViewDirection() == "undefined" || typeof blockEntity == "undefined") return;
         if (
           Vector.distance(
             event.source.getBlockFromViewDirection()?.block.location || { x: 100000, y: 100000, z: 100000 },
@@ -19,8 +20,8 @@ export class BlockEntityManager {
     });
 
     world.afterEvents.blockBreak.subscribe((event) => {
-      console.warn(BlockEntityManager.BlockEntities.length);
       BlockEntityManager.BlockEntities.forEach((BlockEntity) => {
+        if (typeof BlockEntity == "undefined") return;
         if (
           BlockEntity.block?.location.x == event.block.location.x &&
           BlockEntity.block?.location.z == event.block.location.z &&
@@ -37,6 +38,10 @@ export class BlockEntityManager {
 
   static TickAll(): void {
     this.BlockEntities.forEach((blockEntity) => {
+      if (typeof blockEntity == "undefined") {
+        console.warn("TickAll: BlockEntity is undefined");
+        return;
+      }
       blockEntity.Tick();
     });
   }

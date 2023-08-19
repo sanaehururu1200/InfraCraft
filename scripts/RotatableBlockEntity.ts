@@ -20,4 +20,7 @@ export abstract class RotatableBlockEntity extends BlockEntity implements Rotata
   GetRPM(): number {
     return this.RPM;
   }
+
+  // ToDo: Get Side|Top Block_RPMをここに実装したい
+  // ブロック個別に用意するの面倒
 }

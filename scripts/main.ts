@@ -17,10 +17,10 @@ function mainTick() {
   BlockEntityManager.TickAll();
 
   // Load and Unload BlockEntity
-  BlockEntityWatcher.tick();
+  BlockEntityWatcher.Tick();
 
   // Repeat
   system.run(mainTick);
 }
-
+console.warn("mainTick start.");
 system.run(mainTick);

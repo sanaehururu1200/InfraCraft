@@ -3,14 +3,32 @@ import { BlockEntityRegistry } from "./BlockEntityRegistry";
 import { BlockEntityManager } from "./BlockEntityManager";
 
 export class BlockEntityWatcher {
-  static tick() {
+  static Tick() {
     // ロード時の追加用処理
+    // イベントがなさそうなので、諦めて毎チック呼ぶ。
     const Entities = world.getDimension("overworld").getEntities();
+    if (Entities == undefined) {
+      console.warn("BlockEntityWatcher.Load: Entities is undefined.");
+      return;
+    }
     Entities.forEach((entity) => {
       BlockEntityRegistry.RegistryField.forEach((RegisterdBlockEntity) => {
-        if (entity.typeId == RegisterdBlockEntity.entity?.typeId) {
+        console.warn(entity.typeId == "infracraft:small_cog_wheel");
+        if (entity.typeId == "infracraft:small_cog_wheel") {
+          if (typeof entity == "undefined") {
+            console.warn("BlockEntityWatcher.Load: entity is undefined.");
+            return;
+          } else {
+            console.warn("BlockEntityWatcher.Load: entity is defined." + entity.id);
+          }
           if (
-            BlockEntityManager.BlockEntities.find((blockEntity) => blockEntity.entity?.id == entity.id) == undefined
+            BlockEntityManager.BlockEntities.find((blockEntity) => {
+              if (typeof blockEntity == "undefined") {
+                console.warn("BlockEntityWatcher.Load: blockEntity is undefined.");
+                return false;
+              }
+              return blockEntity.entity?.id == entity.id;
+            }) == undefined
           ) {
             // BlockEntityをEntityから生成
             //
@@ -24,6 +42,10 @@ export class BlockEntityWatcher {
 
     // アンロード時の破棄用処理
     BlockEntityManager.BlockEntities.forEach((blockEntity) => {
+      if (typeof blockEntity == "undefined") {
+        console.warn("BlockEntityWatcher.Unload: blockEntity is undefined.");
+        return false;
+      }
       if (Entities.find((entity) => entity.id == blockEntity.entity?.id) == undefined) {
         BlockEntityManager.Unregister(blockEntity);
       }
