@@ -51,6 +51,8 @@ export class HandCrank extends RotatableBlockEntity {
       if (this.entity == null) return;
       this.SetRPM(2);
       this.Count++;
+    } else {
+      this.SetRPM(this.GetTopAndUnderMaxRPM());
     }
   }
 
