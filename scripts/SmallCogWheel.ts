@@ -24,25 +24,13 @@ export class SmallCogWheel extends RotatableBlockEntity {
   }
 
   Tick(): void {
-    let maxTopRPM: number = this.GetMaxTopRPM();
+    super.Tick();
+    let maxTopRPM: number = this.GetTopAndUnderMaxRPM();
     if (maxTopRPM == 0) {
-      let maxSideRPM: number = this.GetMaxSideRPM();
+      let maxSideRPM: number = this.GetSideRPMMax();
       this.SetRPM(-maxSideRPM);
     } else {
       this.SetRPM(maxTopRPM);
-    }
-
-    // 初期化中?
-    if (this.entity == null) return;
-
-    this.entity.teleport(
-      { x: this.entity.location.x, y: this.entity.location.y, z: this.entity.location.z },
-      {
-        rotation: { x: 0, y: this.entity.getRotation().y + this.RPM * 18 },
-      }
-    );
-    if (this.GetRPM() != 0) {
-      world.playSound("block.scaffolding.climb", this.entity.location || { x: 100000, y: 100000, z: 100000 });
     }
   }
 

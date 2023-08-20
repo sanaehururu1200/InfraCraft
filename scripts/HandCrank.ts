@@ -20,7 +20,6 @@ export class HandCrank extends RotatableBlockEntity {
     ) {
       if (this.entity?.typeId.toString() == this.typeId) {
         super.SetRPM(2);
-        event.source.sendMessage("RPM: " + this.GetRPM());
         this.Count = 1;
       }
     }
@@ -39,6 +38,7 @@ export class HandCrank extends RotatableBlockEntity {
   }
 
   Tick(): void {
+    super.Tick();
     if (this.Count > 2) {
       // 一定時間以上Useしてないので減衰させる
       if (this.GetRPM() != 0) {
@@ -50,13 +50,6 @@ export class HandCrank extends RotatableBlockEntity {
       // 回転中
       if (this.entity == null) return;
       this.SetRPM(2);
-      this.entity?.teleport(
-        { x: this.entity?.location.x, y: this.entity?.location.y, z: this.entity?.location.z },
-        {
-          rotation: { x: 0, y: this.entity?.getRotation().y + this.RPM * 18 },
-        }
-      );
-      world.playSound("block.scaffolding.climb", this.entity?.location || { x: 100000, y: 100000, z: 100000 });
       this.Count++;
     }
   }

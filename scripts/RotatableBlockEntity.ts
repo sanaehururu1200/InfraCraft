@@ -1,18 +1,32 @@
 import { Rotatable } from "./Rotatable";
 import { BlockEntity } from "./BlockEntity";
 import { Tickable } from "./Tickable";
-import { Vector } from "@minecraft/server";
+import { Vector, world } from "@minecraft/server";
 import { BlockEntityRegistry } from "./BlockEntityRegistry";
 import { BlockEntityManager } from "./BlockEntityManager";
 
 export abstract class RotatableBlockEntity extends BlockEntity implements Rotatable {
   RPM: number;
   Stress: number;
+  PowerFrom: RotatableBlockEntity | null;
   constructor(typeId: string) {
     super(typeId);
     this.RPM = 0;
     this.Stress = 0;
+    this.PowerFrom = null;
     super.entity?.setDynamicProperty("rpm", this.RPM);
+  }
+
+  Tick(): void {
+    if (this.GetRPM() != 0) {
+      world.playSound("block.scaffolding.climb", this.entity?.location || { x: 100000, y: 100000, z: 100000 });
+      this.entity?.teleport(
+        { x: this.entity?.location.x, y: this.entity?.location.y, z: this.entity?.location.z },
+        {
+          rotation: { x: 0, y: this.entity?.getRotation().y + this.RPM * 18 },
+        }
+      );
+    }
   }
 
   SetRPM(rpm: number): void {
@@ -25,7 +39,7 @@ export abstract class RotatableBlockEntity extends BlockEntity implements Rotata
   }
 
   // 横方向の一番大きいRPMを返す
-  GetMaxSideRPM(): number {
+  GetSideRPMMax(): number {
     let block = this.block;
     if (block == null) {
       console.warn("block is null");
@@ -37,7 +51,7 @@ export abstract class RotatableBlockEntity extends BlockEntity implements Rotata
       new Vector(block.location.x + 1, block.location.y, block.location.z),
       new Vector(block.location.x - 1, block.location.y, block.location.z),
     ];
-    let SideRPMs: number[] = [];
+    var max = 0;
     BlockEntityManager.BlockEntities.forEach((blockEntity) => {
       if (
         (blockEntity.block?.location.x == sides[0].x &&
@@ -54,34 +68,54 @@ export abstract class RotatableBlockEntity extends BlockEntity implements Rotata
           blockEntity.block?.location.z == sides[3].z)
       ) {
         if (blockEntity instanceof RotatableBlockEntity) {
-          SideRPMs.push(blockEntity.GetRPM());
+          if (blockEntity.PowerFrom != this) {
+            if (Math.abs(blockEntity.GetRPM()) > Math.abs(max)) {
+              max = blockEntity.GetRPM();
+              this.PowerFrom = blockEntity;
+            }
+          }
         }
       }
     });
-    // absしたほうが良いかも？
-    let max = Math.max(...SideRPMs);
+    // もしかしたらabsを使うべきかもしれない
+
+    // 0だったらPowerFromをnullにする
+    if (max == 0) this.PowerFrom = null;
     return max;
   }
 
-  // 上方向のRPMを返す
-  GetMaxTopRPM(): number {
+  // 上下方向の一番大きいRPMを返す
+  GetTopAndUnderMaxRPM(): number {
     let block = this.block;
     if (block == null) {
       return 0;
     }
-    let top: Vector = new Vector(block.location.x, block.location.y + 1, block.location.z);
-    let topRPM: number = 0;
+    let array: Vector[] = [
+      new Vector(block.location.x, block.location.y + 1, block.location.z),
+      new Vector(block.location.x, block.location.y - 1, block.location.z),
+    ];
+    var max = 0;
     BlockEntityManager.BlockEntities.forEach((blockEntity) => {
       if (
-        blockEntity.block?.location.x == top.x &&
-        blockEntity.block?.location.y == top.y &&
-        blockEntity.block?.location.z == top.z
+        (blockEntity.block?.location.x == array[0].x &&
+          blockEntity.block?.location.y == array[0].y &&
+          blockEntity.block?.location.z == array[0].z) ||
+        (blockEntity.block?.location.x == array[1].x &&
+          blockEntity.block?.location.y == array[1].y &&
+          blockEntity.block?.location.z == array[1].z)
       ) {
         if (blockEntity instanceof RotatableBlockEntity) {
-          topRPM = blockEntity.GetRPM();
+          if (blockEntity.PowerFrom != this) {
+            if (Math.abs(blockEntity.GetRPM()) > Math.abs(max)) {
+              max = blockEntity.GetRPM();
+              this.PowerFrom = blockEntity;
+            }
+          }
         }
       }
     });
-    return topRPM;
+
+    if (max == 0) this.PowerFrom = null;
+    return max;
   }
 }
