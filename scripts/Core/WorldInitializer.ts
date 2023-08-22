@@ -1,6 +1,6 @@
 import { world, DynamicPropertiesDefinition } from "@minecraft/server";
-import { HandCrank } from "./HandCrank";
-import { SmallCogWheel } from "./SmallCogWheel";
+import { HandCrank } from "../BlockEntity/HandCrank";
+import { SmallCogWheel } from "../BlockEntity/SmallCogWheel";
 
 export class WorldInitializer {
   static Initialize() {

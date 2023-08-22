@@ -1,21 +1,18 @@
 import { world } from "@minecraft/server";
 import { BlockEntityRegistry } from "./BlockEntityRegistry";
 import { BlockEntityManager } from "./BlockEntityManager";
-import { SmallCogWheel } from "./SmallCogWheel";
+import { SmallCogWheel } from "../BlockEntity/SmallCogWheel";
 export class BlockEntityWatcher {
   static Tick() {
     // ロード時の追加用処理
     // イベントがなさそうなので、諦めて毎チック呼ぶ。
     const Entities = world.getDimension("overworld").getEntities();
-    if (Entities == undefined) {
-      // console.warn("BlockEntityWatcher.Load: Entities is undefined.");
+    if (typeof Entities == "undefined") {
       return;
     }
     Entities.forEach((entity) => {
       BlockEntityRegistry.RegistryField.forEach((RegisterdBlockEntity) => {
-        // console.warn(entity.typeId == "infracraft:small_cog_wheel");
-        // entity.typeId == RegisterdBlockEntity.typeId
-        if (entity.typeId == "infracraft:small_cog_wheel") {
+        if (entity.typeId == RegisterdBlockEntity.typeId) {
           if (typeof entity == "undefined") {
             // console.warn("BlockEntityWatcher.Load: entity is undefined.");
             return;
@@ -29,13 +26,13 @@ export class BlockEntityWatcher {
                 return false;
               }
               return blockEntity.entity?.id == entity.id;
-            }) === undefined
+            }) == undefined
           ) {
             // BlockEntityをEntityから生成
             //
             // そのままではチャンクロードで生成されたEntityはBlockEntityにならない
             // そのため、getEntities()で取得したEntityをBlockEntityに変換する
-            BlockEntityManager.Register(new SmallCogWheel());
+            BlockEntityManager.Register(SmallCogWheel.FromEntity(entity));
           }
         }
       });
@@ -45,10 +42,11 @@ export class BlockEntityWatcher {
     BlockEntityManager.BlockEntities.forEach((blockEntity) => {
       if (typeof blockEntity == "undefined") {
         // console.warn("BlockEntityWatcher.Unload: blockEntity is undefined.");
-        return false;
+        return;
       }
       if (Entities.find((entity) => entity.id == blockEntity.entity?.id) == undefined) {
-        BlockEntityManager.Unregister(blockEntity);
+        //console.warn("BlockEntityWatcher.Unload: blockEntity is undefined.");
+        //BlockEntityManager.Unregister(blockEntity);
       }
     });
   }

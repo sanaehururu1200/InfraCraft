@@ -1,10 +1,10 @@
 import { world, system, DynamicPropertiesDefinition } from "@minecraft/server";
-import { HandCrank } from "./HandCrank";
-import { BlockEntityRegistry } from "./BlockEntityRegistry";
-import { SmallCogWheel } from "./SmallCogWheel";
-import { BlockEntityManager } from "./BlockEntityManager";
-import { BlockEntityWatcher } from "./BlockEntityWatcher";
-import { WorldInitializer } from "./WorldInitializer";
+import { HandCrank } from "./BlockEntity/HandCrank";
+import { BlockEntityRegistry } from "./Core/BlockEntityRegistry";
+import { SmallCogWheel } from "./BlockEntity/SmallCogWheel";
+import { BlockEntityManager } from "./Core/BlockEntityManager";
+import { BlockEntityWatcher } from "./Core/BlockEntityWatcher";
+import { WorldInitializer } from "./Core/WorldInitializer";
 
 WorldInitializer.Initialize();
 

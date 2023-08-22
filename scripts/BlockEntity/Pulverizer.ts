@@ -7,7 +7,7 @@ import {
   EntityInventoryComponent,
   ItemStack,
 } from "@minecraft/server";
-import { RotatableBlockEntity } from "./RotatableBlockEntity";
+import { RotatableBlockEntity } from "../Core/RotatableBlockEntity";
 
 export class Pulverizer extends RotatableBlockEntity {
   entity: Entity | null = null;

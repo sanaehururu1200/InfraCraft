@@ -1,5 +1,5 @@
 import { world, Vector, Entity, Vector3 } from "@minecraft/server";
-import { RotatableBlockEntity } from "./RotatableBlockEntity";
+import { RotatableBlockEntity } from "../Core/RotatableBlockEntity";
 
 export class SmallCogWheel extends RotatableBlockEntity {
   RPM: number;
