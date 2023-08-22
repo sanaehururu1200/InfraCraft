@@ -1,4 +1,4 @@
-import { world, Vector, Entity, Vector3 } from "@minecraft/server";
+import { world, Vector, Entity, Vector3, ItemUseAfterEvent } from "@minecraft/server";
 import { RotatableBlockEntity } from "../Core/RotatableBlockEntity";
 
 export class SmallCogWheel extends RotatableBlockEntity {
@@ -11,7 +11,11 @@ export class SmallCogWheel extends RotatableBlockEntity {
     this.Stress = 0;
   }
 
-  static FromEntity(entity: Entity): SmallCogWheel {
+  OnUse(event: ItemUseAfterEvent): void {
+    console.warn("SmallCogWheel: " + this.GetRPM());
+  }
+
+  FromEntity(entity: Entity): SmallCogWheel {
     let blockEntity: SmallCogWheel = new SmallCogWheel();
     blockEntity.entity = entity;
     let block = entity.dimension.getBlock(entity.location);

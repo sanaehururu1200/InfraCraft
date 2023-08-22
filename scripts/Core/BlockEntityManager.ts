@@ -1,9 +1,9 @@
 import { BlockEntity } from "./BlockEntity";
-import { world, Vector } from "@minecraft/server";
+import { world, Vector, Block } from "@minecraft/server";
 
 export class BlockEntityManager {
   static instance: BlockEntityManager = new BlockEntityManager();
-  static BlockEntities: BlockEntity[] = [];
+  static BlockEntities: any[] = [];
   constructor() {
     world.afterEvents.itemUse.subscribe((event) => {
       BlockEntityManager.BlockEntities.forEach((blockEntity) => {
@@ -14,6 +14,7 @@ export class BlockEntityManager {
             blockEntity.block?.location || { x: 100000, y: 100000, z: 100000 }
           ) <= 0.275
         ) {
+          console.warn("1");
           blockEntity.OnUse(event);
         }
       });
@@ -46,12 +47,12 @@ export class BlockEntityManager {
     });
   }
 
-  static Register(blockEntity: BlockEntity): void {
+  static Register(blockEntity: any): void {
     console.warn("BlockEntity Registered");
     this.BlockEntities.push(blockEntity);
   }
 
-  static Unregister(blockEntity: BlockEntity): void {
+  static Unregister(blockEntity: any): void {
     console.warn("BlockEntity Unregistered");
     this.BlockEntities.splice(this.BlockEntities.indexOf(blockEntity), 1);
   }

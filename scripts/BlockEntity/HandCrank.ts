@@ -12,20 +12,12 @@ export class HandCrank extends RotatableBlockEntity {
   }
 
   OnUse(event: ItemUseAfterEvent): void {
-    if (
-      Vector.distance(
-        event.source.getBlockFromViewDirection()?.block.location || { x: -100000, y: -100000, z: -100000 },
-        this.entity?.location || { x: 100000, y: 100000, z: 100000 }
-      ) < 1.5
-    ) {
-      if (this.entity?.typeId.toString() == this.typeId) {
-        super.SetRPM(2);
-        this.Count = 1;
-      }
-    }
+    console.warn("2");
+    this.SetRPM(2);
+    this.Count = 1;
   }
 
-  static FromEntity(entity: Entity): HandCrank {
+  FromEntity(entity: Entity): HandCrank {
     let blockEntity: HandCrank = new HandCrank();
     blockEntity.entity = entity;
     let block = entity.dimension.getBlock(entity.location);

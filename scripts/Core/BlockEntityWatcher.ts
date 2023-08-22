@@ -32,7 +32,7 @@ export class BlockEntityWatcher {
             //
             // そのままではチャンクロードで生成されたEntityはBlockEntityにならない
             // そのため、getEntities()で取得したEntityをBlockEntityに変換する
-            BlockEntityManager.Register(SmallCogWheel.FromEntity(entity));
+            BlockEntityManager.Register(RegisterdBlockEntity.FromEntity(entity));
           }
         }
       });
