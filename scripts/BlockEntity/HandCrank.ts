@@ -12,7 +12,6 @@ export class HandCrank extends RotatableBlockEntity {
   }
 
   OnUse(event: ItemUseAfterEvent): void {
-    console.warn("2");
     this.SetRPM(2);
     this.Count = 1;
   }

@@ -41,12 +41,12 @@ export class BlockEntityWatcher {
     // アンロード時の破棄用処理
     BlockEntityManager.BlockEntities.forEach((blockEntity) => {
       if (typeof blockEntity == "undefined") {
-        // console.warn("BlockEntityWatcher.Unload: blockEntity is undefined.");
+        console.warn("BlockEntityWatcher.Unload: blockEntity is undefined.");
         return;
       }
+      //console.warn("location:" + blockEntity.block?.location.x);
       if (Entities.find((entity) => entity.id == blockEntity.entity?.id) == undefined) {
-        //console.warn("BlockEntityWatcher.Unload: blockEntity is undefined.");
-        //BlockEntityManager.Unregister(blockEntity);
+        BlockEntityManager.Unregister(blockEntity);
       }
     });
   }

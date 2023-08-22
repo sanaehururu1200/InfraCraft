@@ -14,7 +14,6 @@ export class BlockEntityManager {
             blockEntity.block?.location || { x: 100000, y: 100000, z: 100000 }
           ) <= 0.275
         ) {
-          console.warn("1");
           blockEntity.OnUse(event);
         }
       });
