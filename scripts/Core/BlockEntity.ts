@@ -1,4 +1,4 @@
-import { world, Vector, Block, Entity, ItemUseAfterEvent } from "@minecraft/server";
+import { Block, Entity, ItemUseAfterEvent } from "@minecraft/server";
 
 import { Tickable } from "./Tickable";
 

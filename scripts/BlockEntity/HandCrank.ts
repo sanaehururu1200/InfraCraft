@@ -1,4 +1,4 @@
-import { world, Vector, ItemUseAfterEvent, Entity, Block } from "@minecraft/server";
+import { ItemUseAfterEvent, Entity, Block } from "@minecraft/server";
 import { RotatableBlockEntity } from "../Core/RotatableBlockEntity";
 
 export class HandCrank extends RotatableBlockEntity {

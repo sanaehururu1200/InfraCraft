@@ -1,12 +1,4 @@
-import {
-  world,
-  Vector,
-  ItemUseAfterEvent,
-  Entity,
-  Block,
-  EntityInventoryComponent,
-  ItemStack,
-} from "@minecraft/server";
+import { ItemUseAfterEvent, Entity, Block, EntityInventoryComponent, ItemStack } from "@minecraft/server";
 import { RotatableBlockEntity } from "../Core/RotatableBlockEntity";
 
 export class Pulverizer extends RotatableBlockEntity {

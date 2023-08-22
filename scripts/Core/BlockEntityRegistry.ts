@@ -1,5 +1,5 @@
 import { BlockEntity } from "./BlockEntity";
-import { world, Vector } from "@minecraft/server";
+import { world } from "@minecraft/server";
 import { BlockEntityManager } from "./BlockEntityManager";
 
 export class BlockEntityRegistry {

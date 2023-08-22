@@ -1,5 +1,4 @@
-import { BlockEntity } from "./BlockEntity";
-import { world, Vector, Block } from "@minecraft/server";
+import { world, Vector } from "@minecraft/server";
 
 export class BlockEntityManager {
   static instance: BlockEntityManager = new BlockEntityManager();

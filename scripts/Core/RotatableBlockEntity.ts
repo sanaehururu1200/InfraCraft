@@ -1,8 +1,6 @@
 import { Rotatable } from "./Rotatable";
 import { BlockEntity } from "./BlockEntity";
-import { Tickable } from "./Tickable";
 import { Vector, world } from "@minecraft/server";
-import { BlockEntityRegistry } from "./BlockEntityRegistry";
 import { BlockEntityManager } from "./BlockEntityManager";
 
 export abstract class RotatableBlockEntity extends BlockEntity implements Rotatable {

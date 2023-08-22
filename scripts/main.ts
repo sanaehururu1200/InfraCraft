@@ -1,4 +1,4 @@
-import { world, system, DynamicPropertiesDefinition } from "@minecraft/server";
+import { system } from "@minecraft/server";
 import { HandCrank } from "./BlockEntity/HandCrank";
 import { BlockEntityRegistry } from "./Core/BlockEntityRegistry";
 import { SmallCogWheel } from "./BlockEntity/SmallCogWheel";

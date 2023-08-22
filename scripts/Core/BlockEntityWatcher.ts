@@ -1,7 +1,6 @@
 import { world } from "@minecraft/server";
 import { BlockEntityRegistry } from "./BlockEntityRegistry";
 import { BlockEntityManager } from "./BlockEntityManager";
-import { SmallCogWheel } from "../BlockEntity/SmallCogWheel";
 export class BlockEntityWatcher {
   static Tick() {
     // ロード時の追加用処理
